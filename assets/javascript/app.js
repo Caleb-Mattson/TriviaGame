@@ -10,9 +10,9 @@ function start() {
 
 function count() {
     if (time > 0) {
-    time--;
-    $("#timer").text(time);
-    console.log(time);
+        time--;
+        $("#timer").text(time);
+        console.log(time);
     } else if ( time === 0) {
         clearInterval(intervalId);
     }

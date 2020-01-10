@@ -14,7 +14,27 @@ var triviaObj = [{
     question: "What was Dr Seuss' first publish book?",
     answers: ["The Cat in the Hat", "The Lorax", "Game of Thrones", "The Pocket Book of Boners"],
     correctAnswer: "The Pocket Book of Boners"
-}];
+},
+{
+    question: "Finish this book Title by Dr Seuss: One Fish Two Fish_",
+    answers: ["White Fish Orange Fish", "Red Fish Blue Fish", "Three Fish Four!", "Epstein Didn't Kill Himself"],
+    correctAnswer: "Red Fish Blue Fish"
+},
+{
+    question: "What Holiday was the Grinch especially sour about?",
+    answers: ["Halloween", "Secretaries Day", "Christmas", "Mondays"],
+    correctAnswer: "Christmas"
+},
+{
+    question: "What species was Horton in 'Horton Hears a Who'?",
+    answers: ["Pig", "Ostrich", "Zingledopper", "Elephant"],
+    correctAnswer: "Elephant"
+},
+{
+    question: "What color socks did the Fox in Socks wear?",
+    answers: ["Blue", "Red", "Yellow", "Green"],
+    correctAnswer: "Blue"
+},];
 
 function start() {
     intervalId = setInterval(count, 1000);

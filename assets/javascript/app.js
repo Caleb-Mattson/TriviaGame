@@ -13,7 +13,7 @@ var triviaObj = [{
     question: "What did Guy-Am-I constantly refuse to eat no matter his location?",
     answers: ["Green Legs and Ham", "Green Eggs and Yam", "Green Eggs and Ham", "Haggis"],
     correctAnswer: "Green Eggs and Ham"
-}, 
+},
 {
     question: "What was Dr Seuss' first publish book?",
     answers: ["The Cat in the Hat", "The Lorax", "Game of Thrones", "The Pocket Book of Boners"],
@@ -42,7 +42,7 @@ var triviaObj = [{
 
 // start function to initialize game
 function start() {
-    
+
 
     if (!gameRunning) {
         $("#start").hide();
@@ -50,6 +50,8 @@ function start() {
         intervalId = setInterval(count, 1000);
         time = 30;
         $("#timer").text(time);
+        correct = 0;
+        incorrect = 0;
         answerArray();
     } else if (triviaOb) {
 
@@ -61,12 +63,12 @@ function count() {
         time--;
         $("#timer").text(time);
         console.log(time);
-    } else if ( time === 0) {
+    } else if (time === 0) {
         endGame();
     }
 }
 
-var endGame = function() {
+var endGame = function () {
     clearInterval(intervalId);
     time = 0;
     $("#timer").text(time);
@@ -83,70 +85,78 @@ var endGame = function() {
 $("#timer").text(time);
 
 
-var answerArray = function() {
+var answerArray = function () {
 
-    // Deleting the buttons prior to adding new ones
-    // (this is necessary otherwise you will have repeat buttons)
-    $("#trivia").empty();
+    if (counter === 6) {
+        gameRunning = false;
+        clearInterval(intervalId);
+        time = 0;
+        $("#timer").empty();
+        $("#start").show();
+        $("#trivia").empty();
+        $("#trivia").append("<p class='score'> Correct Answers: " + correct + "</p>");
+        $("#trivia").append("<p class='score'> Incorrect Answers: " + incorrect + "</p>");
+        counter = 0;
 
-    $("#trivia").html("<h2>" + triviaObj[counter].question + "</h2>");
-    
-
-    // Looping through the array of triviaObj[counter].answers
-    for (var i = 0; i < 4; i++) {
-
-        // Then dynamicaly generating buttons for each movie in the array
-        // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-        var a = $("<button>");
-        // Adding a class of answers to our button
-        a.addClass("answers");
-        // Adding a data-attribute
-        a.attr("data-name", triviaObj[counter].answers[i].toLowerCase());
-        // Providing the initial button text
-        a.text(triviaObj[counter].answers[i]);
-        // Adding the button to the buttons-view div
-        $("#trivia").append(a);
     }
+    else {
+        // Deleting the buttons prior to adding new ones
+        // (this is necessary otherwise you will have repeat buttons)
+        $("#trivia").empty();
 
+        $("#trivia").html("<h2>" + triviaObj[counter].question + "</h2>");
+
+
+        // Looping through the array of triviaObj[counter].answers
+        for (var i = 0; i < 4; i++) {
+
+            // Then dynamicaly generating buttons for each movie in the array
+            // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+            var a = $("<button>");
+            // Adding a class of answers to our button
+            a.addClass("answers");
+            // Adding a data-attribute
+            a.attr("data-name", triviaObj[counter].answers[i].toLowerCase());
+            // Providing the initial button text
+            a.text(triviaObj[counter].answers[i]);
+            // Adding the button to the buttons-view div
+            $("#trivia").append(a);
+        }
+    }
 
     answerClick();
 
 }
 
-var answerClick = function() {
-    $(".answers").on("click", function() {
-        // console.log($(this).attr("data-name"));
-        // console.log(this);
-        // console.log()
-        
+var answerClick = function () {
+    $(".answers").on("click", function () {
 
-         if ($(this).attr("data-name") == triviaObj[counter].correctAnswer.toLowerCase()) {
+        if ($(this).attr("data-name") === triviaObj[counter].correctAnswer.toLowerCase()) {
             console.log("H9uodh0haspidh0agasdjas")
-            counter ++;
+            counter++;
             correct++;
             answerArray();
-        } else if ($(this).attr("data-name") != triviaObj[counter].correctAnswer.toLowerCase()){
+        } else if ($(this).attr("data-name") != triviaObj[counter].correctAnswer.toLowerCase()) {
             console.log("I am dying! save me!");
             incorrect++;
-            
+            counter++;
 
             answerArray();
-        } 
-    
+        }
+
     });
 
 }
 
-$("#start").on("click", function() {
+$("#start").on("click", function () {
     start();
-    
+
 });
 
 // $(".answers").on("click", function() {
 //     console.log($(this).attr("data-name"));
 
 // });
-
 
 
 

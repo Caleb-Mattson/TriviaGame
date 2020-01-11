@@ -4,6 +4,10 @@ var time = 30;
 var questionAnswered = false;
 var correct = 0;
 var incorrect = 0;
+var gameRunning = false;
+var triviaDisplay = 0;
+var counter = 0;
+
 
 var triviaObj = [{
     question: "What did Guy-Am-I constantly refuse to eat no matter his location?",
@@ -36,10 +40,20 @@ var triviaObj = [{
     correctAnswer: "Blue"
 },];
 
+// start function to initialize game
 function start() {
-    intervalId = setInterval(count, 1000);
-    time = 30;
-    $("#timer").text(time);
+    
+
+    if (!gameRunning) {
+        $("#start").hide();
+        gameRunning = true
+        intervalId = setInterval(count, 1000);
+        time = 30;
+        $("#timer").text(time);
+        answerArray();
+    } else if (triviaOb) {
+
+    }
 }
 
 function count() {
@@ -48,32 +62,90 @@ function count() {
         $("#timer").text(time);
         console.log(time);
     } else if ( time === 0) {
-        clearInterval(intervalId);
+        endGame();
     }
 }
 
+var endGame = function() {
+    clearInterval(intervalId);
+    time = 0;
+    $("#timer").text(time);
+    $("#start").show();
+    $("#trivia").empty();
+    $("#trivia").append("<p class='score'> Correct Answers: " + correct + "</p>");
+    $("#trivia").append("<p class='score'> Incorrect Answers: " + incorrect + "</p>");
+    gameRunning = false;
+    counter = 0;
+}
 
 
+// display initial time on page
 $("#timer").text(time);
 
-var questionDisplay = function(question) {
-    $("#trivia").html("<h2>" + question + "</h2>");
 
-};
+var answerArray = function() {
 
-var mathRandom = function(arr) {
+    // Deleting the buttons prior to adding new ones
+    // (this is necessary otherwise you will have repeat buttons)
+    $("#trivia").empty();
 
-    var returnNumber = Math.floor(Math.random() * arr.length);
-    questionDisplay(triviaObj[returnNumber].question);
-    arr.splice(returnNumber, 1)
-    // console.log(returnNumber);
+    $("#trivia").html("<h2>" + triviaObj[counter].question + "</h2>");
+    
 
-};
+    // Looping through the array of triviaObj[counter].answers
+    for (var i = 0; i < 4; i++) {
+
+        // Then dynamicaly generating buttons for each movie in the array
+        // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+        var a = $("<button>");
+        // Adding a class of answers to our button
+        a.addClass("answers");
+        // Adding a data-attribute
+        a.attr("data-name", triviaObj[counter].answers[i].toLowerCase());
+        // Providing the initial button text
+        a.text(triviaObj[counter].answers[i]);
+        // Adding the button to the buttons-view div
+        $("#trivia").append(a);
+    }
+
+
+    answerClick();
+
+}
+
+var answerClick = function() {
+    $(".answers").on("click", function() {
+        // console.log($(this).attr("data-name"));
+        // console.log(this);
+        // console.log()
+        
+
+         if ($(this).attr("data-name") == triviaObj[counter].correctAnswer.toLowerCase()) {
+            console.log("H9uodh0haspidh0agasdjas")
+            counter ++;
+            correct++;
+            answerArray();
+        } else if ($(this).attr("data-name") != triviaObj[counter].correctAnswer.toLowerCase()){
+            console.log("I am dying! save me!");
+            incorrect++;
+            
+
+            answerArray();
+        } 
+    
+    });
+
+}
 
 $("#start").on("click", function() {
     start();
-    mathRandom(triviaObj);
+    
 });
+
+// $(".answers").on("click", function() {
+//     console.log($(this).attr("data-name"));
+
+// });
 
 
 

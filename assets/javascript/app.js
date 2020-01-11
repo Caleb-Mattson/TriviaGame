@@ -1,12 +1,10 @@
 
 var intervalId;
-var time = 30;
-var questionAnswered = false;
-var correct = 0;
-var incorrect = 0;
-var gameRunning = false;
-var triviaDisplay = 0;
-var counter = 0;
+var time = 30; // default time for game
+var correct = 0; // keeps track of correct answers
+var incorrect = 0; // keeps tracks of incorrect answers
+var gameRunning = false; // check to see if the game is running or not
+var counter = 0; //used to reference the correct area of the array 
 
 
 var triviaObj = [{
@@ -53,11 +51,10 @@ function start() {
         correct = 0;
         incorrect = 0;
         answerArray();
-    } else if (triviaOb) {
-
-    }
+    } 
 }
 
+// handles time actions
 function count() {
     if (time > 0) {
         time--;
@@ -68,6 +65,7 @@ function count() {
     }
 }
 
+// declares actions to take if a game ending occurs
 var endGame = function () {
     clearInterval(intervalId);
     time = 0;
@@ -87,6 +85,7 @@ $("#timer").text(time);
 
 var answerArray = function () {
 
+    // check to make sure there are still questions left in the array
     if (counter === 6) {
         gameRunning = false;
         clearInterval(intervalId);
@@ -130,13 +129,15 @@ var answerArray = function () {
 
 var answerClick = function () {
     $(".answers").on("click", function () {
-
+        // check to see if button press is the same as the answer key
         if ($(this).attr("data-name") === triviaObj[counter].correctAnswer.toLowerCase()) {
             console.log("H9uodh0haspidh0agasdjas")
             counter++;
             correct++;
             answerArray();
-        } else if ($(this).attr("data-name") != triviaObj[counter].correctAnswer.toLowerCase()) {
+        } 
+            // if button click is not the same as answer key, do these actions
+        else if ($(this).attr("data-name") != triviaObj[counter].correctAnswer.toLowerCase()) {
             console.log("I am dying! save me!");
             incorrect++;
             counter++;
@@ -148,19 +149,13 @@ var answerClick = function () {
 
 }
 
+// starts the game on click
 $("#start").on("click", function () {
     start();
 
 });
 
-// $(".answers").on("click", function() {
-//     console.log($(this).attr("data-name"));
-
-// });
-
-
-
-
+// displays default time for first time loading page
 $("#timer").text(time);
 
 
